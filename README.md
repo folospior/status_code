@@ -23,9 +23,9 @@ pub fn main() -> Nil {
   |> result.unwrap(response.new(status_code.not_found))
 
   case response.status {
-    status_code.ok -> io.println("Ok!")
-    status_code.forbidden -> io.println("We've been forbidden from entering this realm")
-    status_code.im_a_teapot -> io.println("Never ask a teapot for coffee")
+    status if status == status_code.ok -> io.println("Ok!")
+    status if status == status_code.forbidden -> io.println("We've been forbidden from entering this realm")
+    status if status == status_code.im_a_teapot -> io.println("Never ask a teapot for coffee")
     _ -> io.println("A strange thing has happened...")
   }
 }
