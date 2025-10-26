@@ -4,21 +4,30 @@
 [![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/status_code/)
 
 ```sh
-gleam add status_code@1
+gleam add status_code gleam_httpc gleam_http
 ```
 ```gleam
+import gleam/http/response
+import gleam/http/request
+import gleam/io
+import gleam/result
 import status_code
 
 pub fn main() -> Nil {
-  // TODO: An example of the project in use
+  let response = request.new()
+  |> request.set_scheme(http.Https)
+  |> request.set_host("example.org")
+  |> request.set_method(http.Get)
+  |> httpc.send
+  |> result.unwrap(response.new(status_code.not_found))
+
+  case response.status {
+    status_code.ok -> io.println("Ok!")
+    status_code.forbidden -> io.println("We've been forbidden from entering this realm")
+    status_code.im_a_teapot -> io.println("Never ask a teapot for coffee")
+    _ -> io.println("A strange thing has happened...")
+  }
 }
 ```
 
 Further documentation can be found at <https://hexdocs.pm/status_code>.
-
-## Development
-
-```sh
-gleam run   # Run the project
-gleam test  # Run the tests
-```
