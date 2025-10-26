@@ -7,6 +7,7 @@
 gleam add status_code gleam_httpc gleam_http
 ```
 ```gleam
+import gleam/httpc
 import gleam/http/response
 import gleam/http/request
 import gleam/io
