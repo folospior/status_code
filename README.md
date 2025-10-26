@@ -7,25 +7,29 @@
 gleam add status_code gleam_httpc gleam_http
 ```
 ```gleam
-import gleam/httpc
-import gleam/http/response
+import gleam/http
 import gleam/http/request
+import gleam/http/response
+import gleam/httpc
 import gleam/io
 import gleam/result
 import status_code
 
 pub fn main() -> Nil {
-  let response = request.new()
-  |> request.set_scheme(http.Https)
-  |> request.set_host("example.org")
-  |> request.set_method(http.Get)
-  |> httpc.send
-  |> result.unwrap(response.new(status_code.not_found))
+  let response =
+    request.new()
+    |> request.set_scheme(http.Https)
+    |> request.set_host("example.org")
+    |> request.set_method(http.Get)
+    |> httpc.send
+    |> result.unwrap(response.new(status_code.not_found))
 
   case response.status {
     status if status == status_code.ok -> io.println("Ok!")
-    status if status == status_code.forbidden -> io.println("We've been forbidden from entering this realm")
-    status if status == status_code.im_a_teapot -> io.println("Never ask a teapot for coffee")
+    status if status == status_code.forbidden ->
+      io.println("We've been forbidden from entering this realm")
+    status if status == status_code.im_a_teapot ->
+      io.println("Never ask a teapot for coffee")
     _ -> io.println("A strange thing has happened...")
   }
 }
